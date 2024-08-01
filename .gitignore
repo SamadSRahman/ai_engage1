@@ -11,8 +11,8 @@
 # production
 /build
 # cashfree keys
-/src/component/payment/secret.js
-**/secret.js
+# /src/component/payment/secret.js
+# **/secret.js
 # misc
 .DS_Store
 .env.local
