@@ -93,13 +93,13 @@ const PayButton = ({ planPrice, features, frequency, planName, description, isPl
           console.log("Redirection URL:", result.redirect);
           
           // Open the redirect URL in a new window
-          const paymentWindow = window.open(result.redirect, '_blank');
+          const paymentWindow = window.open(result.redirect, "_self");
           
           // Set up a message listener on the current window
           window.addEventListener('message', function(event) {
             if (event.data === 'payment_completed') {
               // Payment is completed, now open the dashboard and send the access token
-              const dashboardWindow = window.open('http://localhost:3000/listings', '_blank');
+              const dashboardWindow = window.open('http://localhost:3000/listings', "_self");
               if (dashboardWindow) {
                 dashboardWindow.onload = () => {
                   setTimeout(() => {
