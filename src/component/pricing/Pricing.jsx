@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 
-const PayButton = lazy(() => import('../PayButton'));
+const PayButton = lazy(() => import('../payment/PayButton'));
 
 const renderLoader = () => <p>Loading</p>;
 
