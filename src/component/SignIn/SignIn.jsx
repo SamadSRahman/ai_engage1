@@ -68,46 +68,57 @@ const SignIn = ({ setIsAuthenticated }) => {
       password: password,
     };
 
-    const headerObject = {
-      "Content-Type": "application/json",
-      Accept: "*/*",
-    };
+    // const headerObject = {
+    //   "Content-Type": "application/json",
+    //   Accept: "*/*"
+    // };
 
-    axios
-      .post("https://stream.xircular.io/api/v1/customer/signin", details, {
-        headers: headerObject,
-      })
-      .then((res) => {
-        console.log("data", res.data);
-        // Store the access token
-        const userId = res.data.id;
-        const userName = res.data.email;
-        const accessToken = res.data.token;
-        console.log("accesstoken", accessToken);
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("userId", userId);
-        localStorage.setItem("userName", userName);
-
-        // window.alert("success");
-
-        setIsAuthenticated(true);
-
-        navigate("/"); // Use navigate
-      })
-      .catch((err) => {
-        console.log("siginerror", err.response.data.message);
-        if (err.response.data.message === "Customer not found.") {
-          setEmailerr(err.response.data.message);
-        } else if (err.response.data.message === "Invalid password.") {
-          setPasswordErr(err.response.data.message);
-        } else if (err.response.data.message === "Email not verified") {
-          verifyEmail();
-        } else {
-          // Handle other types of errors or set a generic error message
-          setEmailerr("");
-          setPasswordErr("");
-        }
-      });
+    axios.post(
+      "https://stream.xircular.io/api/v1/customer/signin",
+      details,{
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "/",
+      },
+      withCredentials: true, // Ensures cookies are sent
+    })
+    .then((res) => {
+      console.log("data", res.data);
+      // Store the access token
+      const userId = res.data.id;
+      const userName = res.data.email;
+      const accessToken = res.data.token;
+      console.log("accesstoken", accessToken);
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("userName", userName);
+  
+      setIsAuthenticated(true);
+      navigate("/");
+    })
+    .catch((err) => {
+      console.error("siginerror", err);
+      if (err.response) {
+        console.log("Error response", err.response);
+        console.log("Error data", err.response.data);
+        console.log("Error status", err.response.status);
+        console.log("Error headers", err.response.headers);
+      } else if (err.request) {
+        console.log("Error request", err.request);
+      } else {
+        console.log("Error message", err.message);
+      }
+      if (err.response?.data?.message === "Customer not found.") {
+        setEmailerr(err.response.data.message);
+      } else if (err.response?.data?.message === "Invalid password.") {
+        setPasswordErr(err.response.data.message);
+      } else if (err.response?.data?.message === "Email not verified") {
+        verifyEmail();
+      } else {
+        setEmailerr("");
+        setPasswordErr("");
+      }
+    });  
   }
   function verifyEmail() {
     localStorage.setItem("email", email);

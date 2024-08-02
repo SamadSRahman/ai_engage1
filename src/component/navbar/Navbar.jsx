@@ -20,7 +20,7 @@ const Navbar = () => {
         // Fetch user subscription information only if accessToken is available
         if (accessToken) {
           axios.get('https://stream.xircular.io/api/v1/subscription/getCustomerSubscription', {
-            headers: { Authorization: `Bearer ${accessToken}` }
+            withCredentials:true
           })
           .then(response => {
             const user = response.data[0]; // Adjust based on the actual response structure
