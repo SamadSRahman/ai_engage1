@@ -33,6 +33,7 @@ const PayButton = ({
           headers: {
             Cookie: "lng=en",
           },
+          withCredentials:true
         }
       );
       console.log(response.data.data);
