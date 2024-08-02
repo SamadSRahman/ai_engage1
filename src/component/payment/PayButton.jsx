@@ -106,7 +106,7 @@ const PayButton = ({
       let checkoutOptions = {
         paymentSessionId: sessionId,
         returnUrl:
-          "https://stream.xircular.io/api/v1/cashfree/getStatus/{order_id}"
+          "https://new-video-editor.vercel.app/listings"
       };
       cashfree.checkout(checkoutOptions).then(function (result) {
         if (result.error) {
