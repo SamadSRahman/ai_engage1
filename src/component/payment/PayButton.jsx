@@ -56,7 +56,7 @@ const PayButton = ({
             features,
             userId: localStorage.getItem("userId"),
           },
-        }
+        },{withCredentials:true}
       );
       return response.data.data.id;
     } catch (error) {
@@ -75,7 +75,8 @@ const PayButton = ({
           phone,
           userId: localStorage.getItem("userId"),
           planPrice,
-        }
+        },
+        {withCredentials:true}
       );
       return response.data.data;
     } catch (error) {
