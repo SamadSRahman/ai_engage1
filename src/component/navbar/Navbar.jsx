@@ -16,27 +16,23 @@ const Navbar = () => {
   const [isSubscribed, setIsSubscribed] = useState(null);
   const [isTrialActive, setIsTrialActive] = useState(null);
 
-  useEffect(() => {
+  // useEffect(() => {
     // Fetch user subscription information only if accessToken is available
-    if (accessToken) {
-      axios
-        .get(
-          "https://stream.xircular.io/api/v1/subscription/getCustomerSubscription",
-          {
-            withCredentials: true,
-          }
-        )
-        .then((response) => {
-          const user = response.data[0]; // Adjust based on the actual response structure
+    // if (accessToken) {
+      useEffect(() => {
+        axios.get('https://stream.xircular.io/api/v1/subscription/getCustomerSubscription', {
+          withCredentials: true,
+        })
+        .then(response => {
+          const user = response.data[0];
           console.log(user);
           setIsSubscribed(user.isSubscribed);
           setIsTrialActive(user.isTrialActive);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error("Error fetching user subscription data", error);
         });
-    }
-  }, [accessToken]);
+      }, []);
 
   // Define a function to extract the name from the email
   const extractNameFromEmail = (email) => {
@@ -48,14 +44,17 @@ const Navbar = () => {
   // Otherwise, set the name to an empty string
   const Name = userName ? extractNameFromEmail(userName) : "";
 
-  const handlelogout = () => {
-    // Clear cookies
-    Cookies.remove("access_token", { path: "/" });
-    Cookies.remove("userName", { path: "/" });
-    window.location.reload();
-    //  localStorage.clear();
-    //  window.location.reload();
-  };
+  const handleLogout = () => {
+    axios.post('https://stream.xircular.io/api/v1/customer/logOut', {}, {
+      withCredentials: true,
+    })
+    .then(() => {
+      navigate('/SignIn');
+    })
+    .catch(error => {
+      console.error("Error logging out", error);
+    });
+  }
 
   return (
     <div className="navbar">
@@ -64,14 +63,14 @@ const Navbar = () => {
       </div>
 
       {/* Render the "Sign in" button if accessToken does not exist */}
-      {!accessToken && (
+      { !document.cookie.includes("access_token") && (
         <button className="" onClick={() => navigate("/SignIn")}>
           Sign in
         </button>
       )}
 
       {/* Render the userName if it exists */}
-      {accessToken && (
+      { document.cookie.includes("access_token") &&(
         <div className="userName">
           {/*   <p>  Hi,{Name}   </p> */}
           {/* <button
