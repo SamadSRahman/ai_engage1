@@ -80,7 +80,8 @@ const SignIn = ({ setIsAuthenticated }) => {
         "Content-Type": "application/json",
         Accept: "/",
       },
-      withCredentials: true, // Ensures cookies are sent
+      withCredentials: true, 
+      credentials: 'include'// Ensures cookies are sent
     })
     .then((res) => {
       console.log("data", res.data);
