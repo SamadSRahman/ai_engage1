@@ -28,6 +28,7 @@ const SignIn = ({ setIsAuthenticated }) => {
   const [isVerifyOtpVisible, setIsVerifyOtpVisible] = useState(false);
   const [isVerifyEmailVisible, setIsVerifyEmailVisible] = useState(false);
   const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
 
   useEffect(() => {
     if (popup === "verifyEmail") {
