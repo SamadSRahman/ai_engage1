@@ -7,6 +7,8 @@ import video from "../../images/Group.svg";
 import logic from "../../images/Group (1).svg";
 import insight from "../../images/Vector (1).svg";
 import mail from "../../images/mail.svg";
+import leftArrow from "../../images/Arrow 1.svg";
+import rightArrow from "../../images/Arrow 2.svg";
 import pass from "../../images/lock.svg";
 import visibilityOff from "../../images/visibility_off (1).svg";
 import visibilityOn from "../../images/visibility (1).svg";
@@ -185,16 +187,19 @@ const SignIn = ({ setIsAuthenticated }) => {
 
         <div className="mapSection">
           <div className="mapSectionCard">
-            <img src={video} alt="" />
-            <label htmlFor="">Interactive Video</label>
+            <img src={video} alt="Interactive Video" />
+            <label>Interactive Video</label>
+            <img className="leftArrow" src={leftArrow} alt="" />
           </div>
           <div className="mapSectionCard">
-            <img src={logic} alt="" />
-            <label htmlFor="">Branching Logic</label>
+            <img src={logic} alt="Branching Logic" />
+            <label>Branching Logic</label>
+            <img className="rightArrow" src={rightArrow} alt="" />
           </div>
           <div className="mapSectionCard">
-            <img src={insight} alt="" />
-            <label htmlFor="">AI-Powered Insights</label>
+            <img src={insight} alt="AI-Powered Insights" />
+            <label>AI-Powered Insights</label>
+            <div className="arrow left-arrow"></div>
           </div>
         </div>
       </div>
@@ -237,13 +242,13 @@ const SignIn = ({ setIsAuthenticated }) => {
               onClick={() => navigate("forgetPassword")}
               className="forgotPasswordLabel"
             >
-              Forgot Password
+              Forgot Password?
             </label>
 
             <div className="bottomSection">
               <button onClick={handleSubmit}>Log in</button>
               <div className="signUpSection">
-                <span>Don’t have an account please</span>
+                <span>Don’t have an account?</span>
                 <span onClick={handlleSignup} className="linkSpan">
                   Sign up
                 </span>

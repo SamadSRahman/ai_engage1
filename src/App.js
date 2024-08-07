@@ -11,6 +11,9 @@ import CheckoutFail from './component/CheckoutFail';
 import NotFound from './component/NotFound';
 import Home from './Home';
 import Logout from './component/Logout';
+import RefundPolicy from './component/refundPolicy/RefundPolicy';
+import TermsAndConditions from './component/termsAndCondition/TermsAndCondition';
+import ContactUs from './component/ContactUs/ContactUs';
 
 
 function App() {
@@ -83,6 +86,9 @@ function App() {
             {/* <Route path="/checkout" element={<CheckoutForm/>} /> */}
             <Route path="/checkoutSuccess" element={<CheckoutSuccess/>} />
             <Route path="/checkoutFail" element={<CheckoutFail/>} />
+            <Route path="/refundPolicy" element={<RefundPolicy/>} />
+            <Route path="/termsAndConditions" element={<TermsAndConditions/>} />
+            <Route path="/contactUs" element={<ContactUs/>} />
             <Route path="*" element={<NotFound/>} />
           </Routes>
           {/* // </Elements> */}
