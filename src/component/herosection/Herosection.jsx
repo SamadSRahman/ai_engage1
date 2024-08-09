@@ -16,7 +16,7 @@ const Herosection = () => {
     // Fetch user subscription information only if accessToken is available
     if (accessToken) {
       axios.get('https://stream.xircular.io/api/v1/subscription/getCustomerSubscription', {
-        headers: { Authorization: `Bearer ${accessToken}` }
+        withCredentials:true
       })
       .then(response => {
         const user = response.data[0]; // Adjust based on the actual response structure
@@ -37,9 +37,7 @@ const Herosection = () => {
           const createfreetrailurl =
             "https://stream.xircular.io/api/v1/customer/startTrial";
           const response = await axios.get(createfreetrailurl, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
+           withCredentials:true
           });
   
           console.log("Free Trial Response", response);

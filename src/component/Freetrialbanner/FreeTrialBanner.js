@@ -35,9 +35,7 @@ const FreeTrialBanner = () => {
         const createfreetrailurl =
           "https://stream.xircular.io/api/v1/customer/startTrial";
         const response = await axios.get(createfreetrailurl, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+       withCredentials:true
         });
 
         console.log("Free Trial Response", response);
