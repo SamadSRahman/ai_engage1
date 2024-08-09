@@ -4,6 +4,7 @@
 
 }
 
+
 .signup-page {
   display: flex;
   justify-content: center;
@@ -58,6 +59,7 @@ padding: 15px;
 border: none;
 outline: none;
 margin-left: -15px;
+border-radius: 10px;
 }
 .PhoneInput>select{
   border: 1px solid red;
@@ -120,6 +122,9 @@ margin-left: -15px;
 }
 .termsSpan{
   text-decoration: underline;
+  color: #061C33;
+  cursor: pointer;
+  /* font-weight: bold; */
 }
 @media screen and (max-width: 600px) {
     /* .input-card{

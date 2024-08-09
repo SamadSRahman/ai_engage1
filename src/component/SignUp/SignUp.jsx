@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-phone-number-input/style.css";
 import "./SignUp.css";
 import axios from "axios";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
-import "react-phone-number-input/style.css";
 import { useNavigate } from "react-router-dom";
 import logo from "../../images/AIENGAGE 2.svg";
 import video from "../../images/Group.svg";
+import leftArrow from "../../images/Arrow 1.svg";
+import rightArrow from "../../images/Arrow 2.svg";
 import logic from "../../images/Group (1).svg";
 import insight from "../../images/Vector (1).svg";
 import mail from "../../images/mail.svg";
@@ -22,6 +23,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   // const [error, setError] = useState("");
+  const [accepted, setAccepted] = useState(false);
   const [phoneErr, setPhoneErr] = useState("");
   const [emailerr, setEmailerr] = useState("");
   const [PasswordErr, setPasswordErr] = useState("");
@@ -54,28 +56,33 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!accepted) {
+      alert("Please accept the terms and conditions to continue");
+      return;
+    }
+
     setPhoneErr("");
     setEmailerr("");
     setPasswordErr("");
 
-    if(!phone && !email && !password){
-      setEmailerr("This field is required")
-      setPhoneErr("This field is required")
-      setPasswordErr("This field is required")
-      return
+    if (!phone && !email && !password) {
+      setEmailerr("This field is required");
+      setPhoneErr("This field is required");
+      setPasswordErr("This field is required");
+      return;
     }
-if(!phone){
-  setPhoneErr("Field cannot be empty")
-  return
-}
-if(!email){
-  setEmailerr("Field cannot be empty")
-  return
-}
-if(!password){
-  setPasswordErr("Field cannot be empty")
-  return
-}
+    if (!phone) {
+      setPhoneErr("Field cannot be empty");
+      return;
+    }
+    if (!email) {
+      setEmailerr("Field cannot be empty");
+      return;
+    }
+    if (!password) {
+      setPasswordErr("Field cannot be empty");
+      return;
+    }
     if (!isValidPhoneNumber(phone)) {
       setPhoneErr("Invalid phone number");
       return;
@@ -90,7 +97,7 @@ if(!password){
       setPasswordErr(
         "Password should be strong with one number, one letter, one special character and between 8 to 15 characters"
       );
-      return; 
+      return;
     }
 
     const item = { phone, email, password };
@@ -115,14 +122,11 @@ if(!password){
         if (err.response && err.response.data) {
           if (err.response.data?.message?.includes("phone")) {
             setPhoneErr(err.response.data.message);
-          } 
-          else if (err.response.data?.message?.includes("Email")) {
+          } else if (err.response.data?.message?.includes("Email")) {
             setEmailerr(err.response.data.message);
-          }
-          else if (err.response.data?.message?.includes("Password")) {
+          } else if (err.response.data?.message?.includes("Password")) {
             setPasswordErr(err.response.data.message);
-          }
-           else if (
+          } else if (
             err.response?.data?.errors[0]?.path === "phone" ||
             err.response.data?.errors[0]?.msg.includes("number")
           ) {
@@ -173,19 +177,21 @@ if(!password){
       )}
       <div className="leftSection">
         <img className="logoIcon" src={logo} alt="" />
-
         <div className="mapSection">
           <div className="mapSectionCard">
-            <img src={video} alt="" />
-            <label htmlFor="">Interactive Video</label>
+            <img src={video} alt="Interactive Video" />
+            <label>Interactive Video</label>
+            <img className="leftArrow" src={leftArrow} alt="" />
           </div>
           <div className="mapSectionCard">
-            <img src={logic} alt="" />
-            <label htmlFor="">Branching Logic</label>
+            <img src={logic} alt="Branching Logic" />
+            <label>Branching Logic</label>
+            <img className="rightArrow" src={rightArrow} alt="" />
           </div>
           <div className="mapSectionCard">
-            <img src={insight} alt="" />
-            <label htmlFor="">AI-Powered Insights</label>
+            <img src={insight} alt="AI-Powered Insights" />
+            <label>AI-Powered Insights</label>
+            <div className="arrow left-arrow"></div>
           </div>
         </div>
       </div>
@@ -197,69 +203,81 @@ if(!password){
             <img src={wave} alt="" />
           </div>
           <label className="boxHeaderText">Sign up</label>
-       <form onSubmit={handleSubmit}>
-       <div className="inputSection">
-            <div>
-              <PhoneInput
-                value={phone}
-                onChange={handlePhoneChange}
-                defaultCountry="IN"
-                placeholder="Phone"
-              />
-              {phoneErr && (
-                <p
-                  style={{
-                    color: "red",
-                    fontSize: "15px",
-                    fontFamily: "Inter",
-                    marginBottom: "0px",
-                  }}
-                >
-                  {phoneErr}
-                </p>
-              )}
-            </div>
-            <div className="inputWrapper">
-              <img src={mail} alt="" />
-              <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                placeholder="Email"
-              />
-            </div>
-            <span className="errorText">{emailerr}</span>
-            <div className="inputWrapper">
-              <img src={pass} alt="" />
-              <input
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-              />
-              <img
-                onClick={() => setShowPassword(!showPassword)}
-                src={showPassword ? visibilityOff : visibilityOn}
-                alt=""
-              />
-            </div>
-            <span className="errorText">{PasswordErr}</span>
+          <form onSubmit={handleSubmit}>
+            <div className="inputSection">
+              <div>
+                <PhoneInput
+                  value={phone}
+                  onChange={handlePhoneChange}
+                  defaultCountry="IN"
+                  placeholder="Phone"
+                />
+                {phoneErr && (
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: "15px",
+                      fontFamily: "Inter",
+                      marginBottom: "0px",
+                    }}
+                  >
+                    {phoneErr}
+                  </p>
+                )}
+              </div>
+              <div className="inputWrapper">
+                <img src={mail} alt="" />
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  placeholder="Email"
+                />
+              </div>
+              <span className="errorText">{emailerr}</span>
+              <div className="inputWrapper">
+                <img src={pass} alt="" />
+                <input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                />
+                <img
+                  onClick={() => setShowPassword(!showPassword)}
+                  src={showPassword ? visibilityOff : visibilityOn}
+                  alt=""
+                />
+              </div>
+              <span className="errorText">{PasswordErr}</span>
 
-            <div className="bottomSection">
-              <button onClick={handleSubmit}>Sign up</button>
-              {/* <div className="signUpSection">
-              <span>By creating an account you agree with our Terms of service & Privacy policy</span>
-              <span onClick={handleLogin} className="termsSpan">Terms of service & Privacy policy</span>
-            </div> */}
-              <div className="signUpSection">
-                <span>Don’t have an account please</span>
-                <span onClick={handleLogin} className="linkSpan">
-                  Log in
-                </span>
+              <div className="bottomSection">
+                <button onClick={handleSubmit}>Sign up</button>
+                <div className="termsSection">
+                  <input
+                    type="checkbox"
+                    value={accepted}
+                    onChange={() => setAccepted(!accepted)}
+                  />
+                  <span>
+                    By creating an account you agree with our{" "}
+                    <span
+                      onClick={() => navigate("/termsAndConditions")}
+                      className="termsSpan"
+                    >
+                      Terms of service & Privacy policy
+                    </span>
+                  </span>
+                </div>
+                <div className="signUpSection">
+                  <span>Already have an account?</span>
+                  <span onClick={handleLogin} className="linkSpan">
+                    Log in
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-       </form>
+          </form>
         </div>
       </div>
     </div>
