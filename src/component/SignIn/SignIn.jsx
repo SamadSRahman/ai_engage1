@@ -222,7 +222,7 @@ const SignIn = ({ setIsAuthenticated }) => {
                 placeholder="Email"
               />
             </div>
-            <span className="errorText">{emailerr}</span>
+         {emailerr &&   <span className="errorText">{emailerr}</span>}
             <div className="inputWrapper">
               <img src={pass} alt="" />
               <input

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "react-phone-number-input/style.css";
 import "./SignUp.css";
 import axios from "axios";
@@ -10,6 +10,7 @@ import leftArrow from "../../images/Arrow 1.svg";
 import rightArrow from "../../images/Arrow 2.svg";
 import logic from "../../images/Group (1).svg";
 import insight from "../../images/Vector (1).svg";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import mail from "../../images/mail.svg";
 import pass from "../../images/lock.svg";
 import visibilityOff from "../../images/visibility_off (1).svg";
@@ -22,27 +23,31 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  // const [error, setError] = useState("");
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
   const [accepted, setAccepted] = useState(false);
   const [phoneErr, setPhoneErr] = useState("");
+  const [error, setError] = useState("");
   const [emailerr, setEmailerr] = useState("");
   const [PasswordErr, setPasswordErr] = useState("");
   const navigate = useNavigate();
   const [isVerifyEmailVisible, setIsVerifyEmailVisible] = useState(false);
 
-  const handlePhoneChange = (value) => {
-    try {
-      setPhone(value);
-      if (!isValidPhoneNumber(value)) {
-        setPhoneErr("Invalid phone number");
-      } else {
-        setPhoneErr("");
-      }
-    } catch (error) {
-      console.error("Error in handlePhoneChange:", error);
+  function handleChange(field, e) {
+    setError("");
+    if (field === "name") {
+      setName(e.target.value);
     }
-  };
-
+    if (field === "phone") {
+      setPhone(e);
+    }
+    if (field === "email") {
+      setEmail(e.target.value);
+    }
+    if (field === "pass") {
+      setPassword(e.target.value);
+    }
+  }
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -52,6 +57,10 @@ const SignUp = () => {
     const passwordRegex =
       /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,15}$/;
     return passwordRegex.test(password);
+  };
+  const nameRegex = /^[A-Za-z][A-Za-z\s'-]{2,29}$/;
+  const validateName = (name) => {
+    return nameRegex.test(name);
   };
 
   const handleSubmit = (e) => {
@@ -69,27 +78,42 @@ const SignUp = () => {
       setEmailerr("This field is required");
       setPhoneErr("This field is required");
       setPasswordErr("This field is required");
+      setError("This field is required");
       return;
     }
     if (!phone) {
       setPhoneErr("Field cannot be empty");
+      setError("Field cannot be empty");
       return;
     }
     if (!email) {
       setEmailerr("Field cannot be empty");
+      setError("Field cannot be empty");
       return;
     }
     if (!password) {
       setPasswordErr("Field cannot be empty");
+      setError("Field cannot be empty");
+      return;
+    }
+    if (!validateName(name)) {
+      setNameError(
+        "Please enter a valid name. The name should start with a letter, can include spaces, hyphens, or apostrophes, and must be between 3 to 30 characters long."
+      );
+      setError(
+        "Please enter a valid name. The name should start with a letter, can include spaces, hyphens, or apostrophes, and must be between 3 to 30 characters long."
+      );
       return;
     }
     if (!isValidPhoneNumber(phone)) {
       setPhoneErr("Invalid phone number");
+      setError("Invalid phone number");
       return;
     }
 
     if (!validateEmail(email)) {
       setEmailerr("Invalid email address");
+      setError("Invalid email address");
       return;
     }
 
@@ -97,10 +121,13 @@ const SignUp = () => {
       setPasswordErr(
         "Password should be strong with one number, one letter, one special character and between 8 to 15 characters"
       );
+      setError(
+        "Password should be strong with one number, one letter, one special character and between 8 to 15 characters"
+      );
       return;
     }
 
-    const item = { phone, email, password };
+    const item = { phone, email, password, name };
     const headerObject = {
       "Content-Type": "application/json",
       Accept: "*/*",
@@ -120,6 +147,7 @@ const SignUp = () => {
       .catch((err) => {
         console.log("errors", err);
         if (err.response && err.response.data) {
+          setError(err.response.data?.message);
           if (err.response.data?.message?.includes("phone")) {
             setPhoneErr(err.response.data.message);
           } else if (err.response.data?.message?.includes("Email")) {
@@ -172,6 +200,7 @@ const SignUp = () => {
 
   return (
     <div className="signInContainer">
+      {error && <div className="snackbar-error">{error}</div>}
       {isVerifyEmailVisible && (
         <VerifyEmail onClose={() => setIsVerifyEmailVisible(false)} />
       )}
@@ -208,11 +237,12 @@ const SignUp = () => {
               <div>
                 <PhoneInput
                   value={phone}
-                  onChange={handlePhoneChange}
+                  onChange={(e) => handleChange("phone", e)}
                   defaultCountry="IN"
                   placeholder="Phone"
+                  style={phoneErr?{ borderRadius:"7px", boxShadow:"1px 1px 4px rgba(255, 0, 0, 0.379)"}:{}}
                 />
-                {phoneErr && (
+                {/* {phoneErr && (
                   <p
                     style={{
                       color: "red",
@@ -223,23 +253,41 @@ const SignUp = () => {
                   >
                     {phoneErr}
                   </p>
-                )}
+                )} */}
               </div>
-              <div className="inputWrapper">
+              <div className="inputWrapper"
+              style={nameError?{ borderRadius:"7px", boxShadow:"1px 1px 4px rgba(255, 0, 0, 0.379)"}:{}}
+              >
+                <PersonOutlineOutlinedIcon
+                  sx={{ color: "#1c1b1fd6", fontWeight: "normal" }}
+                />
+                <input
+                  value={name}
+                  onChange={(e) => handleChange("name", e)}
+                  type="name"
+                  placeholder="Name"
+                  name="name"
+                />
+              </div>
+              <div className="inputWrapper"
+              style={emailerr?{ borderRadius:"7px", boxShadow:"0.2px 0.2px 4px crimson"}:{}}
+              >
                 <img src={mail} alt="" />
                 <input
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => handleChange("email", e)}
                   type="email"
                   placeholder="Email"
                 />
               </div>
-              <span className="errorText">{emailerr}</span>
-              <div className="inputWrapper">
+              {emailerr && <span className="errorText">{emailerr}</span>}
+              <div className="inputWrapper"
+              style={PasswordErr?{ borderRadius:"7px", boxShadow:"1px 1px 8px rgba(255, 0, 0, 0.5)"}:{}}
+              >
                 <img src={pass} alt="" />
                 <input
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => handleChange("pass", e)}
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                 />
