@@ -66,11 +66,12 @@ const PayButton = ({
     }
   };
 
-  const cashfreeOrder = async (orderId, phone) => {
+  const cashfreeOrder = async (orderId, phone,name) => {
     try {
       const response = await axios.post(
         "https://stream.xircular.io/api/v1/cashfree/create-checkout-session",
         {
+          name,
           orderId,
           userName: localStorage.getItem("userName"),
           phone,
@@ -100,9 +101,10 @@ const PayButton = ({
       // Get user details including phone number
       const userDetails = await getUserDetails();
       const phone = userDetails.phone;
+      const name=userDetails.name;
 
       const orderId = await createOrder();
-      const sessionId = await cashfreeOrder(orderId, phone);
+      const sessionId = await cashfreeOrder(orderId, phone,name);
 
       let checkoutOptions = {
         paymentSessionId: sessionId,
