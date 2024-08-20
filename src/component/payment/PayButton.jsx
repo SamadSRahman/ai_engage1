@@ -71,15 +71,17 @@ const PayButton = ({
       const response = await axios.post(
         "https://stream.xircular.io/api/v1/cashfree/create-checkout-session",
         {
-          name,
           orderId,
           userName: localStorage.getItem("userName"),
           phone,
+          name,
           userId: localStorage.getItem("userId"),
           planPrice,
         },
         {withCredentials:true}
       );
+      console.log(planPrice);
+      
       return response.data.data;
     } catch (error) {
       console.error("Error creating Cashfree session:", error);
@@ -102,6 +104,8 @@ const PayButton = ({
       const userDetails = await getUserDetails();
       const phone = userDetails.phone;
       const name=userDetails.name;
+      console.log(name,phone);
+      
 
       const orderId = await createOrder();
       const sessionId = await cashfreeOrder(orderId, phone,name);
