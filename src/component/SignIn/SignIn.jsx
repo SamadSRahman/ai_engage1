@@ -81,9 +81,8 @@ const SignIn = ({ setIsAuthenticated }) => {
       details,{
       headers: {
         "Content-Type": "application/json",
-        Accept: "/",
       },
-      withCredentials: true, // Ensures cookies are sent
+     // Ensures cookies are sent
     })
     .then((res) => {
       console.log("data", res.data);

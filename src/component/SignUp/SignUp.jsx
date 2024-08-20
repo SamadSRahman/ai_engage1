@@ -130,7 +130,6 @@ const SignUp = () => {
     const item = { phone, email, password, name };
     const headerObject = {
       "Content-Type": "application/json",
-      Accept: "*/*",
     };
     const SignUpApi = "https://stream.xircular.io/api/v1/customer/signup";
 
