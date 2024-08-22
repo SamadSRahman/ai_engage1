@@ -19,6 +19,8 @@ import ResetPassword from "../dailogs/ResetPassword";
 import VerifyEmail from "../dailogs/VerifyEmail";
 
 const SignIn = ({ setIsAuthenticated }) => {
+  
+  // axios.defaults.withCredentials = true;
   const { popup } = useParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -81,6 +83,7 @@ const SignIn = ({ setIsAuthenticated }) => {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials:true
         }
       );
   
