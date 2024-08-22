@@ -239,7 +239,14 @@ const SignUp = () => {
                   onChange={(e) => handleChange("phone", e)}
                   defaultCountry="IN"
                   placeholder="Phone"
-                  style={phoneErr?{ borderRadius:"7px", boxShadow:"1px 1px 4px rgba(255, 0, 0, 0.379)"}:{}}
+                  // style={
+                  //   phoneErr
+                  //     ? {
+                  //         borderRadius: "7px",
+                  //         boxShadow: "1px 1px 4px rgba(255, 0, 0, 0.379)",
+                  //       }
+                  //     : {}
+                  // }
                 />
                 {/* {phoneErr && (
                   <p
@@ -254,8 +261,16 @@ const SignUp = () => {
                   </p>
                 )} */}
               </div>
-              <div className="inputWrapper"
-              style={nameError?{ borderRadius:"7px", boxShadow:"1px 1px 4px rgba(255, 0, 0, 0.379)"}:{}}
+              <div
+                className="inputWrapper"
+                // style={
+                //   nameError
+                //     ? {
+                //         borderRadius: "7px",
+                //         boxShadow: "1px 1px 4px rgba(255, 0, 0, 0.379)",
+                //       }
+                //     : {}
+                // }
               >
                 <PersonOutlineOutlinedIcon
                   sx={{ color: "#1c1b1fd6", fontWeight: "normal" }}
@@ -268,8 +283,16 @@ const SignUp = () => {
                   name="name"
                 />
               </div>
-              <div className="inputWrapper"
-              style={emailerr?{ borderRadius:"7px", boxShadow:"0.2px 0.2px 4px crimson"}:{}}
+              <div
+                className="inputWrapper"
+                // style={
+                //   emailerr
+                //     ? {
+                //         borderRadius: "7px",
+                //         boxShadow: "0.2px 0.2px 4px crimson",
+                //       }
+                //     : {}
+                // }
               >
                 <img src={mail} alt="" />
                 <input
@@ -280,8 +303,16 @@ const SignUp = () => {
                 />
               </div>
               {emailerr && <span className="errorText">{emailerr}</span>}
-              <div className="inputWrapper"
-              style={PasswordErr?{ borderRadius:"7px", boxShadow:"1px 1px 8px rgba(255, 0, 0, 0.5)"}:{}}
+              <div
+                className="inputWrapper"
+                // style={
+                //   PasswordErr
+                //     ? {
+                //         borderRadius: "7px",
+                //         boxShadow: "1px 1px 8px rgba(255, 0, 0, 0.5)",
+                //       }
+                //     : {}
+                // }
               >
                 <img src={pass} alt="" />
                 <input

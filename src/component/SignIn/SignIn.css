@@ -275,7 +275,7 @@ gap: 5px;
   top: 20px; /* Start at the top */
   left: 50%;
   transform: translateX(-50%);
-  background-color: #f44336;
+  background-color: black;
   color: white;
   padding: 10px 20px;
   border-radius: 4px;
