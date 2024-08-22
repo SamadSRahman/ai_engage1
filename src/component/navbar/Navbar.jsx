@@ -44,12 +44,24 @@ const Navbar = () => {
   // Otherwise, set the name to an empty string
   const Name = userName ? extractNameFromEmail(userName) : '';
 
+  function clearAllCookies() {
+    const cookies = document.cookie.split(";");
+  
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+  }
+
+  
       const handlelogout = async() =>{
-               localStorage.clear();
-               window.location.reload();
               try{
                 const response = await axios.post("https://stream.xircular.io/api/v1/customer/logout")
-                console.log(response.data)
+                clearAllCookies();
+                localStorage.clear();
+                window.location.reload();
               }
               catch(error){
                 console.log(error)
