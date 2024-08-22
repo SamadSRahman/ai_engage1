@@ -20,7 +20,6 @@ const PayButton = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
 
   const getUserDetails = async () => {
     const userId = localStorage.getItem("userId");

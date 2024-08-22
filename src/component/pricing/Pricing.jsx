@@ -19,7 +19,6 @@ export default function Pricing() {
   const accessToken = localStorage.getItem('accessToken');
   console.log("pricing tab accessToken:", accessToken)
   const navigate = useNavigate()
-  axios.defaults.withCredentials = true;
     /* Api call for fetching subscription plans */
     useEffect(() => {
 
