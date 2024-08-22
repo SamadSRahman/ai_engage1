@@ -155,6 +155,7 @@ const SignIn = ({ setIsAuthenticated }) => {
         console.log(error);
       });
   }
+  useEffect(()=>{setError("")},[email, password])
 
   const handlleSignup = () => {
     navigate("/SignUp");
