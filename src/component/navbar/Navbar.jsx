@@ -64,7 +64,7 @@ const Navbar = () => {
                 console.log(response)
                 clearAllCookies();
                 localStorage.clear();
-                // window.location.reload();
+                window.location.reload();
               }
               catch(error){
                 console.log(error)

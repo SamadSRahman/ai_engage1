@@ -137,6 +137,22 @@ const SignIn = ({ setIsAuthenticated }) => {
       }
     }
   }
+  //   try {
+  //     const response = await fetch("https://stream.xircular.io/api/v1/customer/signin", {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(details),
+  //       credentials: 'include'
+  //     });
+  //     const data = await response.json();
+  //     console.log("Response data:", data);
+  //     // ... handle the response
+  //   } catch (error) {
+  //     console.error("Fetch error:", error);
+  //   }
+  // }
   
   function verifyEmail() {
     localStorage.setItem("email", email);
