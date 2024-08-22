@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "react-phone-number-input/style.css";
 import "./SignUp.css";
 import axios from "axios";
-import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import PhoneInput, { isValidPhoneNumber, isPossiblePhoneNumber , parsePhoneNumber} from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import logo from "../../images/AIENGAGE 2.svg";
 import video from "../../images/Group.svg";
@@ -63,6 +63,14 @@ const SignUp = () => {
     return nameRegex.test(name);
   };
 
+  function validateIndianPhoneNumber(phoneNumber) {
+    // Regex pattern for Indian phone numbers with optional country code
+    const indianPhoneNumberPattern = /^(\+91[-\s]?)?[6-9]\d{9}$/;
+  
+    // Test the phone number against the regex pattern
+    return indianPhoneNumberPattern.test(phoneNumber);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!accepted) {
@@ -105,11 +113,26 @@ const SignUp = () => {
     //   );
     //   return;
     // }
-    if (!isValidPhoneNumber(phone)) {
+    // const number = parsePhoneNumberFromString(phone)
+    // console.log("number", number)
+    const num = parsePhoneNumber(phone)
+    console.log(num)
+    if (!isValidPhoneNumber(phone)||!isPossiblePhoneNumber(phone)) {
       setPhoneErr("Invalid phone number");
       setError("Invalid phone number");
       return;
     }
+    else if(num.countryCallingCode==="91"){
+      if(!validateIndianPhoneNumber(num.nationalNumber)){
+        setError("Invalid phone number")
+        return;
+      }
+    }
+  
+    // else if(number[0]!==9||number[0]!==8||number[0]!==7||number[0]!==6){
+    //   setPhoneErr("Invalid phone number");
+    //   setError("Invalid phone number"); 
+    // }
 
     // if (!validateEmail(email)) {
     //   setEmailerr("Invalid email address");
