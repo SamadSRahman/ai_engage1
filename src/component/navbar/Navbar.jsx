@@ -44,9 +44,16 @@ const Navbar = () => {
   // Otherwise, set the name to an empty string
   const Name = userName ? extractNameFromEmail(userName) : '';
 
-      const handlelogout = () =>{
+      const handlelogout = async() =>{
                localStorage.clear();
                window.location.reload();
+              try{
+                const response = await axios.post("https://stream.xircular.io/api/v1/customer/logout")
+                console.log(response.data)
+              }
+              catch(error){
+                console.log(error)
+              }
       }
 
 
