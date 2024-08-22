@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { cashfree } from "./utils";
+import { cashfree, convertUsdToInr } from "./utils";
 
 // // Define the getCookie function here
 // const getCookie = (name) => {
@@ -18,8 +18,19 @@ const PayButton = ({
   description,
   isPlanAlreadyPurchased,
 }) => {
+  console.log(planPrice)
   const [loading, setLoading] = useState(false);
+  const [amountInInr, setAmountInInr] = useState("")
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const convertCurrency = async () => {
+      const convertedAmount = await convertUsdToInr(planPrice);
+      setAmountInInr(convertedAmount);
+    };
+
+    convertCurrency();
+  }, [planPrice]);
 
   const getUserDetails = async () => {
     const userId = localStorage.getItem("userId");
@@ -75,7 +86,7 @@ const PayButton = ({
           phone,
           name,
           userId: localStorage.getItem("userId"),
-          planPrice,
+          amountInInr,
         },
         {withCredentials:true}
       );
@@ -104,7 +115,7 @@ const PayButton = ({
       const phone = userDetails.phone;
       const name=userDetails.name;
       console.log(name,phone);
-      
+      //
 
       const orderId = await createOrder();
       const sessionId = await cashfreeOrder(orderId, phone,name);

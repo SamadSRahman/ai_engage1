@@ -96,36 +96,36 @@ const SignUp = () => {
       setError("Field cannot be empty");
       return;
     }
-    if (!validateName(name)) {
-      setNameError(
-        "Please enter a valid name. The name should start with a letter, can include spaces, hyphens, or apostrophes, and must be between 3 to 30 characters long."
-      );
-      setError(
-        "Please enter a valid name. The name should start with a letter, can include spaces, hyphens, or apostrophes, and must be between 3 to 30 characters long."
-      );
-      return;
-    }
+    // if (!validateName(name)) {
+    //   setNameError(
+    //     "Please enter a valid name. The name should start with a letter, can include spaces, hyphens, or apostrophes, and must be between 3 to 30 characters long."
+    //   );
+    //   setError(
+    //     "Please enter a valid name. The name should start with a letter, can include spaces, hyphens, or apostrophes, and must be between 3 to 30 characters long."
+    //   );
+    //   return;
+    // }
     if (!isValidPhoneNumber(phone)) {
       setPhoneErr("Invalid phone number");
       setError("Invalid phone number");
       return;
     }
 
-    if (!validateEmail(email)) {
-      setEmailerr("Invalid email address");
-      setError("Invalid email address");
-      return;
-    }
+    // if (!validateEmail(email)) {
+    //   setEmailerr("Invalid email address");
+    //   setError("Invalid email address");
+    //   return;
+    // }
 
-    if (!validatePassword(password)) {
-      setPasswordErr(
-        "Password should be strong with one number, one letter, one special character and between 8 to 15 characters"
-      );
-      setError(
-        "Password should be strong with one number, one letter, one special character and between 8 to 15 characters"
-      );
-      return;
-    }
+    // if (!validatePassword(password)) {
+    //   setPasswordErr(
+    //     "Password should be strong with one number, one letter, one special character and between 8 to 15 characters"
+    //   );
+    //   setError(
+    //     "Password should be strong with one number, one letter, one special character and between 8 to 15 characters"
+    //   );
+    //   return;
+    // }
 
     const item = { phone, email, password, name };
     const headerObject = {
@@ -147,9 +147,13 @@ const SignUp = () => {
         console.log("errors", err);
         if (err.response && err.response.data) {
           setError(err.response.data?.message);
-          if (err.response.data?.message?.includes("phone")) {
+          if (err.response.data?.message.toLowerCase()?.includes("phone")) {
             setPhoneErr(err.response.data.message);
-          } else if (err.response.data?.message?.includes("Email")) {
+          } else if (err.response.data?.message.toLowerCase()?.includes("name")) {
+            setNameError(err.response.data.message);
+          }
+          
+          else if (err.response.data?.message?.includes("Email")||err.response.data?.message?.includes("email")) {
             setEmailerr(err.response.data.message);
           } else if (err.response.data?.message?.includes("Password")) {
             setPasswordErr(err.response.data.message);
