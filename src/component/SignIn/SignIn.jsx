@@ -29,7 +29,9 @@ const SignIn = ({ setIsAuthenticated }) => {
   const [isResetPasswordVisible, setIsResetPasswordVisible] = useState(false);
   const [isVerifyOtpVisible, setIsVerifyOtpVisible] = useState(false);
   const [isVerifyEmailVisible, setIsVerifyEmailVisible] = useState(false);
+  const [error, setError] = useState("")
   const navigate = useNavigate();
+
 
   useEffect(() => {
     if (popup === "verifyEmail") {
@@ -54,6 +56,7 @@ const SignIn = ({ setIsAuthenticated }) => {
     // Validate email
     if (!email.trim()) {
       setEmailerr("*Email cannot be empty");
+      setError("Email cannot be empty");
       return;
     } else {
       setEmailerr("");
@@ -62,6 +65,7 @@ const SignIn = ({ setIsAuthenticated }) => {
     // Validate password
     if (!password.trim()) {
       setPasswordErr("*Password cannot be empty");
+      setError("Password cannot be empty");
       return;
     } else {
       setPasswordErr("");
@@ -108,10 +112,11 @@ const SignIn = ({ setIsAuthenticated }) => {
         console.log("Error data", err.response.data);
         console.log("Error status", err.response.status);
         console.log("Error headers", err.response.headers);
-  
+        setError(err.response.data.message);
         // Handle specific error messages from the API
         if (err.response.data.message === "Customer not found.") {
           setEmailerr(err.response.data.message);
+        
         } else if (err.response.data.message === "Invalid password.") {
           setPasswordErr(err.response.data.message);
         } else if (err.response.data.message === "Email not verified") {
@@ -119,6 +124,7 @@ const SignIn = ({ setIsAuthenticated }) => {
         } else {
           setEmailerr("");
           setPasswordErr("");
+          setError("");
         }
         
       } else if (err.request) {
@@ -166,6 +172,7 @@ const SignIn = ({ setIsAuthenticated }) => {
   }
   return (
     <div className="signInContainer">
+     {error && <div className="snackbar-error">{error}</div>}
       {isForgetPasswordVisible && (
         <ForgetPassword
           // onClose={onPopupClose}
