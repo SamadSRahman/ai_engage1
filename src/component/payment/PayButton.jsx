@@ -86,7 +86,7 @@ const PayButton = ({
           phone,
           name,
           userId: localStorage.getItem("userId"),
-          amountInInr,
+          planPrice:amountInInr,
         },
         {withCredentials:true}
       );
