@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "react-phone-number-input/style.css";
 import "./SignUp.css";
 import axios from "axios";
-import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import PhoneInput, { isValidPhoneNumber, isPossiblePhoneNumber , parsePhoneNumber} from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import logo from "../../images/AIENGAGE 2.svg";
 import video from "../../images/Group.svg";
@@ -63,6 +63,14 @@ const SignUp = () => {
     return nameRegex.test(name);
   };
 
+  function validateIndianPhoneNumber(phoneNumber) {
+    // Regex pattern for Indian phone numbers with optional country code
+    const indianPhoneNumberPattern = /^(\+91[-\s]?)?[6-9]\d{9}$/;
+  
+    // Test the phone number against the regex pattern
+    return indianPhoneNumberPattern.test(phoneNumber);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!accepted) {
@@ -96,36 +104,51 @@ const SignUp = () => {
       setError("Field cannot be empty");
       return;
     }
-    if (!validateName(name)) {
-      setNameError(
-        "Please enter a valid name. The name should start with a letter, can include spaces, hyphens, or apostrophes, and must be between 3 to 30 characters long."
-      );
-      setError(
-        "Please enter a valid name. The name should start with a letter, can include spaces, hyphens, or apostrophes, and must be between 3 to 30 characters long."
-      );
-      return;
-    }
-    if (!isValidPhoneNumber(phone)) {
+    // if (!validateName(name)) {
+    //   setNameError(
+    //     "Please enter a valid name. The name should start with a letter, can include spaces, hyphens, or apostrophes, and must be between 3 to 30 characters long."
+    //   );
+    //   setError(
+    //     "Please enter a valid name. The name should start with a letter, can include spaces, hyphens, or apostrophes, and must be between 3 to 30 characters long."
+    //   );
+    //   return;
+    // }
+    // const number = parsePhoneNumberFromString(phone)
+    // console.log("number", number)
+    const num = parsePhoneNumber(phone)
+    console.log(num)
+    if (!isValidPhoneNumber(phone)||!isPossiblePhoneNumber(phone)) {
       setPhoneErr("Invalid phone number");
       setError("Invalid phone number");
       return;
     }
-
-    if (!validateEmail(email)) {
-      setEmailerr("Invalid email address");
-      setError("Invalid email address");
-      return;
+    else if(num.countryCallingCode==="91"){
+      if(!validateIndianPhoneNumber(num.nationalNumber)){
+        setError("Invalid phone number")
+        return;
+      }
     }
+  
+    // else if(number[0]!==9||number[0]!==8||number[0]!==7||number[0]!==6){
+    //   setPhoneErr("Invalid phone number");
+    //   setError("Invalid phone number"); 
+    // }
 
-    if (!validatePassword(password)) {
-      setPasswordErr(
-        "Password should be strong with one number, one letter, one special character and between 8 to 15 characters"
-      );
-      setError(
-        "Password should be strong with one number, one letter, one special character and between 8 to 15 characters"
-      );
-      return;
-    }
+    // if (!validateEmail(email)) {
+    //   setEmailerr("Invalid email address");
+    //   setError("Invalid email address");
+    //   return;
+    // }
+
+    // if (!validatePassword(password)) {
+    //   setPasswordErr(
+    //     "Password should be strong with one number, one letter, one special character and between 8 to 15 characters"
+    //   );
+    //   setError(
+    //     "Password should be strong with one number, one letter, one special character and between 8 to 15 characters"
+    //   );
+    //   return;
+    // }
 
     const item = { phone, email, password, name };
     const headerObject = {
@@ -147,9 +170,13 @@ const SignUp = () => {
         console.log("errors", err);
         if (err.response && err.response.data) {
           setError(err.response.data?.message);
-          if (err.response.data?.message?.includes("phone")) {
+          if (err.response.data?.message.toLowerCase()?.includes("phone")) {
             setPhoneErr(err.response.data.message);
-          } else if (err.response.data?.message?.includes("Email")) {
+          } else if (err.response.data?.message.toLowerCase()?.includes("name")) {
+            setNameError(err.response.data.message);
+          }
+          
+          else if (err.response.data?.message?.includes("Email")||err.response.data?.message?.includes("email")) {
             setEmailerr(err.response.data.message);
           } else if (err.response.data?.message?.includes("Password")) {
             setPasswordErr(err.response.data.message);
@@ -239,7 +266,14 @@ const SignUp = () => {
                   onChange={(e) => handleChange("phone", e)}
                   defaultCountry="IN"
                   placeholder="Phone"
-                  style={phoneErr?{ borderRadius:"7px", boxShadow:"1px 1px 4px rgba(255, 0, 0, 0.379)"}:{}}
+                  // style={
+                  //   phoneErr
+                  //     ? {
+                  //         borderRadius: "7px",
+                  //         boxShadow: "1px 1px 4px rgba(255, 0, 0, 0.379)",
+                  //       }
+                  //     : {}
+                  // }
                 />
                 {/* {phoneErr && (
                   <p
@@ -254,8 +288,16 @@ const SignUp = () => {
                   </p>
                 )} */}
               </div>
-              <div className="inputWrapper"
-              style={nameError?{ borderRadius:"7px", boxShadow:"1px 1px 4px rgba(255, 0, 0, 0.379)"}:{}}
+              <div
+                className="inputWrapper"
+                // style={
+                //   nameError
+                //     ? {
+                //         borderRadius: "7px",
+                //         boxShadow: "1px 1px 4px rgba(255, 0, 0, 0.379)",
+                //       }
+                //     : {}
+                // }
               >
                 <PersonOutlineOutlinedIcon
                   sx={{ color: "#1c1b1fd6", fontWeight: "normal" }}
@@ -268,8 +310,16 @@ const SignUp = () => {
                   name="name"
                 />
               </div>
-              <div className="inputWrapper"
-              style={emailerr?{ borderRadius:"7px", boxShadow:"0.2px 0.2px 4px crimson"}:{}}
+              <div
+                className="inputWrapper"
+                // style={
+                //   emailerr
+                //     ? {
+                //         borderRadius: "7px",
+                //         boxShadow: "0.2px 0.2px 4px crimson",
+                //       }
+                //     : {}
+                // }
               >
                 <img src={mail} alt="" />
                 <input
@@ -280,8 +330,16 @@ const SignUp = () => {
                 />
               </div>
               {emailerr && <span className="errorText">{emailerr}</span>}
-              <div className="inputWrapper"
-              style={PasswordErr?{ borderRadius:"7px", boxShadow:"1px 1px 8px rgba(255, 0, 0, 0.5)"}:{}}
+              <div
+                className="inputWrapper"
+                // style={
+                //   PasswordErr
+                //     ? {
+                //         borderRadius: "7px",
+                //         boxShadow: "1px 1px 8px rgba(255, 0, 0, 0.5)",
+                //       }
+                //     : {}
+                // }
               >
                 <img src={pass} alt="" />
                 <input
