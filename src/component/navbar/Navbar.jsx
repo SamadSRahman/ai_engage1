@@ -58,10 +58,13 @@ const Navbar = () => {
   
       const handlelogout = async() =>{
               try{
-                const response = await axios.post("https://stream.xircular.io/api/v1/customer/logout")
+                const response = await axios.post("https://stream.xircular.io/api/v1/customer/logout",{},{
+                  withCredentials:true
+                })
+                console.log(response)
                 clearAllCookies();
                 localStorage.clear();
-                window.location.reload();
+                // window.location.reload();
               }
               catch(error){
                 console.log(error)
