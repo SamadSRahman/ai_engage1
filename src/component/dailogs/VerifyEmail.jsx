@@ -73,23 +73,24 @@ export default function VerifyEmail({ onClose, name, phone, password, tokenFromP
       console.log(error);
     }
   }
-  async function handleSendCode() {
-    try {
-      const response = await axios.post(
-        "https://stream.xircular.io/api/v1/customer/sendOtp",
-        { email: email, otp: otp }
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
   async function handleVerifyCode(e) {
     e.preventDefault();
     try {
       const response = await axios.post(
         "https://stream.xircular.io/api/v1/customer/emailVerification",
-        { email: email, Otp: otp, name:name, password:password, phone:phone, token:token }
+        {
+          email: email,
+          Otp: otp,
+          name: name,
+          password: password,
+          phone: phone,
+        },
+        {
+          headers: {
+            token: token,
+          },
+        }
       );
       console.log(response.data);
       if (response.data.success) {
