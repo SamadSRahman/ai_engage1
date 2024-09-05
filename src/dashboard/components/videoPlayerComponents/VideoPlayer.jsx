@@ -12,7 +12,6 @@ export default function VideoPlayer({
   isVideoLoading,
   isThumbnailsGenerating,
 }) {
-
   const renderVideoContent = () => {
     if (!selectedVideo?.videoSrc && !isVideoLoading) {
       return <VideoPlaceholder />;
@@ -35,8 +34,8 @@ export default function VideoPlayer({
       );
     }
 
-  return (
-      <div data-vjs-player>
+    return (
+      <div data-vjs-player id="video-js-wrapper">
         <video
           id="my-video"
           ref={videoRef}
@@ -45,7 +44,7 @@ export default function VideoPlayer({
           style={{
             borderRadius: "8px",
             width: "auto",
-            maxHeight: "15.5rem",
+            maxHeight: "100%",
             maxWidth: "100%",
             objectFit: "contain",
           }}
@@ -65,9 +64,12 @@ export default function VideoPlayer({
 
   return (
     <div className="videoPlayer">
-      <div className="videoWrapper" style={isDisplay ? {} : { display: "none" }}>
+      <div
+        className="videoWrapper"
+        style={isDisplay ? {} : { display: "none" }}
+      >
         {renderVideoContent()}
       </div>
     </div>
   );
-};
+}

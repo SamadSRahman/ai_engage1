@@ -436,8 +436,9 @@ const InputField = (props) => {
         {...props.attributes}
         className={`my-class ${props.attributes.className}`}
       >
-        <div>
+       
           {thumbnails.length === 0 && (
+             <div className="drop-area-wrapper">
             <div
               className="drop-area"
               onDrop={handleDrop}
@@ -453,6 +454,7 @@ const InputField = (props) => {
                 </span>
               </div>
             </div>
+            </div>
           )}
           <input
             type="file"
@@ -463,7 +465,7 @@ const InputField = (props) => {
             id="fileInput"
             ref={inputRef}
           />
-        </div>
+     
         <InputHeader
           inputRef={inputRef}
           thumbnails={thumbnails}

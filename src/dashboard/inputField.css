@@ -116,8 +116,7 @@
   align-items: center;
   justify-content: center;
   font-family: "Figtree", sans-serif;
-  height: 102%;
-
+  height: 100%;
 }
 .dropAreaHeader{
   font-size: large;
@@ -130,14 +129,17 @@
   margin-top: 10px;
 
 }
+.drop-area-wrapper{
+  height: 100%;
+}
 .drop-area{
-  height:18rem;
-  background-color: white;
-  padding-bottom: 15px;
+  background-color: white; 
   width: 100%;
-  /* margin-left: 10px; */
   padding-top: 15px;
+  padding-bottom: 15px;
   border-radius: 10px;
+  box-sizing: border-box;
+  height: 100%;
 }
 .inputHeader{
   width: 103%;

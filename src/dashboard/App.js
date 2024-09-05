@@ -73,7 +73,7 @@ export default function App() {
     let accessToken = localStorage.getItem("accessToken");
     setFileName("");
     if (!accessToken) {
-      navigate("/");
+      // navigate("/");
     }
   }, []);
 
