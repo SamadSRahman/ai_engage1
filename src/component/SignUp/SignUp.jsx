@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-phone-number-input/style.css";
 import "./SignUp.css";
 import axios from "axios";
@@ -27,6 +27,7 @@ const SignUp = () => {
   const [nameError, setNameError] = useState("");
   const [accepted, setAccepted] = useState(false);
   const [phoneErr, setPhoneErr] = useState("");
+  const [token, setToken] = useState("")
   const [error, setError] = useState("");
   const [emailerr, setEmailerr] = useState("");
   const [PasswordErr, setPasswordErr] = useState("");
@@ -163,8 +164,7 @@ const SignUp = () => {
         console.log("successmsg", res.data.message);
         alert("Please verify your email to continue");
         verifyEmail();
-        setIsVerifyEmailVisible(true);
-        // navigate("/SignIn");
+        // setIsVerifyEmailVisible(true);
       })
       .catch((err) => {
         console.log("errors", err);
@@ -213,7 +213,7 @@ const SignUp = () => {
       )
       .then((response) => {
         console.log(response.data);
-        setIsVerifyEmailVisible(true);
+        setToken(response.data.token)
       })
       .catch((error) => {
         console.log(error);
@@ -224,11 +224,22 @@ const SignUp = () => {
     navigate("/SignIn");
   };
 
+  useEffect(()=>{
+    if(token){
+      setIsVerifyEmailVisible(true)
+    }
+  },[token])
+
   return (
     <div className="signInContainer">
       {error && <div className="snackbar-error">{error}</div>}
       {isVerifyEmailVisible && (
-        <VerifyEmail onClose={() => setIsVerifyEmailVisible(false)} />
+        <VerifyEmail onClose={() => setIsVerifyEmailVisible(false)} 
+        name={name}
+        phone={phone}
+        password={password}
+        tokenFromProps={token}
+        />
       )}
       <div className="leftSection">
         <img className="logoIcon" src={logo} alt="" />
@@ -253,7 +264,7 @@ const SignUp = () => {
       <div className="rightSection">
         <div className="loginBox">
           <img className="loginBoxLogo" src={logo} alt="" />
-          <div className="heading">
+          <div className="headingLogin">
             <label className="welcomeText">Hi, Welcome</label>
             <img src={wave} alt="" />
           </div>

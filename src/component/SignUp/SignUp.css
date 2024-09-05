@@ -87,7 +87,7 @@
   border: 1px solid rgba(0, 0, 0, 0.174);
   outline: none;
   border-radius: 7px;
-  min-width: 72%;
+  min-width: 60%;
 }
 
 .PhoneInput > select {

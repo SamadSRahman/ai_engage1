@@ -16,7 +16,9 @@ const Herosection = () => {
     // Fetch user subscription information only if accessToken is available
     if (accessToken) {
       axios.get('https://stream.xircular.io/api/v1/subscription/getCustomerSubscription', {
-        withCredentials:true
+        headers:{
+          authorization:accessToken
+        }
       })
       .then(response => {
         const user = response.data[0]; // Adjust based on the actual response structure
@@ -37,12 +39,15 @@ const Herosection = () => {
           const createfreetrailurl =
             "https://stream.xircular.io/api/v1/customer/startTrial";
           const response = await axios.get(createfreetrailurl, {
-           withCredentials:true
+        headers:{
+          authorization:accessToken
+        }
           });
   
           console.log("Free Trial Response", response);
           // setData(response.data.data);
-          window.location.href = `https://new-video-editor.vercel.app/listings?accessToken=${accessToken}`;
+          // window.location.href = `https://new-video-editor.vercel.app/listings?accessToken=${accessToken}`;
+          navigate("/listings")
         } catch (error) {
           console.error("Error fetching data:", error);
         }

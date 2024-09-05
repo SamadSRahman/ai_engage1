@@ -7,8 +7,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import OTPVerifier from "../otpVerifier/OTPVerifier";
 
-export default function VerifyEmail({ onClose }) {
+export default function VerifyEmail({ onClose, name, phone, password, tokenFromProps}) {
   const [otp, setOtp] = useState("");
+  const [token, setToken] = useState(tokenFromProps)
   const containerRef = useRef(null);
   const email = localStorage.getItem("email");
   const [isResendVisible, setIsResendVisible] = useState(false);
@@ -19,9 +20,8 @@ export default function VerifyEmail({ onClose }) {
 
   useEffect(()=>{
     const string = otpValues.join("")
-    console.log(string)
+   setError("")
     setOtp(string)
-
   },[otpValues])
   useEffect(() => {
     setTimeout(() => {
@@ -66,6 +66,7 @@ export default function VerifyEmail({ onClose }) {
       if (response.data.message) {
         alert(response.data.message);
         setTimer(30);
+        setToken(response.data.token)
         setIsResendVisible(false);
       }
     } catch (error) {
@@ -88,7 +89,7 @@ export default function VerifyEmail({ onClose }) {
     try {
       const response = await axios.post(
         "https://stream.xircular.io/api/v1/customer/emailVerification",
-        { email: email, otp: otp }
+        { email: email, Otp: otp, name:name, password:password, phone:phone, token:token }
       );
       console.log(response.data);
       if (response.data.success) {
@@ -119,7 +120,7 @@ export default function VerifyEmail({ onClose }) {
         <label className={styles.primaryText}>Verify your email</label>
         <label className={styles.secondaryText}>
           {" "}
-          We’ve sent an OTP to your email
+          We’ve sent an OTP to {email}
         </label>
         <form onSubmit={handleVerifyCode}>
           {/* <div id={styles.inputWrapper} className="inputWrapper">
@@ -134,7 +135,7 @@ export default function VerifyEmail({ onClose }) {
           </div> */}
           <OTPVerifier otpValues={otpValues} setOtpValues={setOtpValues}/>
       
-          {error && <span className={styles.errorText}>{error}</span>}
+          {error && <span className={styles.snackbarError}>{error}</span>}
           {!isResendVisible ? (
             <div className="signUpSection">
               <span>Resend OTP in</span>
@@ -150,8 +151,14 @@ export default function VerifyEmail({ onClose }) {
               </span>
             </div>
           )}
+          <div className="signUpSection">
+          <span>Incorrect email?</span>
+              <span onClick={onClose} className="linkSpan">
+                Edit 
+              </span>
+            </div>
           <button
-            disabled={otp ? false : true}
+            disabled={otp.length===6 ? false : true}
             className={styles.sendBtn}
             onClick={handleVerifyCode}
           >
