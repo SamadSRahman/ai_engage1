@@ -49,27 +49,27 @@ function App() {
   };
   
 
-  useEffect(() => {
-    let cancelled = false;
+  // useEffect(() => {
+  //   let cancelled = false;
   
-    const loadStripePromise = async () => {
-      try {
-        const { loadStripe } = await import('@stripe/stripe-js');
-        const stripe = await loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY);
-        if (!cancelled) {
-          setStripePromise(stripe);
-        }
-      } catch (error) {
-        console.error('Failed to load Stripe:', error);
-      }
-    };
+  //   const loadStripePromise = async () => {
+  //     try {
+  //       const { loadStripe } = await import('@stripe/stripe-js');
+  //       const stripe = await loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY);
+  //       if (!cancelled) {
+  //         setStripePromise(stripe);
+  //       }
+  //     } catch (error) {
+  //       console.error('Failed to load Stripe:', error);
+  //     }
+  //   };
   
-    loadStripePromise();
+  //   // loadStripePromise();
   
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  //   return () => {
+  //     cancelled = true;
+  //   };
+  // }, []);
 
 
 
