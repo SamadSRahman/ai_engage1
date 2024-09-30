@@ -19,17 +19,22 @@ import Alert from "../alert/Alert";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   fileNameAtom,
+  isEditorVisibleAtom,
   isSaveBtnVisibleForEditAtom,
   reloadCounterForEditAtom,
+  selectedVideoAtom,
+  vidAtom,
   videoFilesArrayAtom,
 } from "../../Recoil/store";
 
 export default function Navbar(props) {
   const navigate = useNavigate();
   const { id } = useParams();
-  const videoArray = useRecoilValue(videoFilesArrayAtom);
+  const [videoArray, setVideoArray] = useRecoilState(videoFilesArrayAtom);
   const [loading, setLoading] = useState(false);
+  const selectedVideo = useRecoilValue(selectedVideoAtom)
   const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const vid = useRecoilValue(vidAtom)
   const [isSuccessAlertVisible, setIsSuccessAlertVisible] = useState(false);
   const [isSaveAlertVisible, setIsSaveAlertVisible] = useState(false);
   const [alertText, setAlertText] = useState("");
@@ -47,6 +52,15 @@ export default function Navbar(props) {
   useEffect(() => {
     localStorage.setItem("fileName", fileName);
   }, [fileName]);
+
+  // useEffect(()=>{
+  //  const videoArry =  JSON.parse(localStorage.getItem("videoArray"))
+  //   if(videoArray?.length>1){
+  //     setVideoArray(videoArry)
+  //   }
+  //   console.log(videoArry);
+    
+  // },[isEditorVisible])
 
   function handleShare() {
     if (mainId || props.isEditPage) {
@@ -210,7 +224,7 @@ export default function Navbar(props) {
                   />
                 )}
               </div>
-              {props.isEditPage ? (
+              {props.isEditPage && id ? (
                 <div
                   className={styles.shareBtnContainer}
                   style={{
@@ -229,15 +243,14 @@ export default function Navbar(props) {
                   )}
                 </div>
               ) : (
-                !props.isSaveBtnVisible &&
-                videoArray.length > 1 && (
+              (
                   <div
                     className={styles.shareBtnContainer}
                     style={{
-                      width:  !props.isSaveBtnVisible &&
-                      videoArray.length > 1  ? "auto" : "0",
-                      padding:  !props.isSaveBtnVisible &&
-                      videoArray.length > 1  ? "10px" : "0",
+                      width:    
+                      selectedVideo.videoSrc  ? "auto" : "0",
+                      padding: 
+                      selectedVideo.videoSrc ? "10px" : "0",
                     }}
                     onClick={handleConfirmSave}
                   >

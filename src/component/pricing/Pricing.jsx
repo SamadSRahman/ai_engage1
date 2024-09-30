@@ -39,7 +39,7 @@ export default function Pricing() {
   useEffect(() => {
     const fetchsubscriptiondata = async () => {
       try {
-        const requesturl = `https://stream.xircular.io/api/v1/subscription_plan/getByFrequency?frequency=${selectedTab}`;
+        const requesturl = `https://saas-own.vercel.app/api/v1/subscription_plan/getByFrequency?frequency=${selectedTab}`;
         const response = await axios.get(requesturl);
 
         console.log("All Subscriptiondata Response", response.data);
@@ -153,7 +153,7 @@ export default function Pricing() {
               className={`tab ${selectedTab === "annually" ? "active" : ""}`}
               onClick={() => handleTabClick("annually")}
             >
-              Annual
+              Annually
             </div>
           </div>
         </div>

@@ -49,7 +49,11 @@ const Herosection = () => {
           // window.location.href = `https://new-video-editor.vercel.app/listings?accessToken=${accessToken}`;
           navigate("/listings")
         } catch (error) {
-          console.error("Error fetching data:", error);
+          if(error.response.data.message==="jwt expired"){
+            alert("Session expired, please login again to continue")
+            navigate("/SignIn")
+          }
+          console.log("Error fetching data:", error);
         }
       } else {
         navigate("/SignUp");

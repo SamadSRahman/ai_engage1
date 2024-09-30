@@ -14,8 +14,9 @@ const FreeTrialBanner = () => {
   useEffect(() => {
     // Fetch user subscription information only if accessToken is available
     if (accessToken) {
-      axios.get('https://stream.xircular.io/api/v1/subscription/getCustomerSubscription', 
-       {withCredentials:true}
+      axios.get('https://saas-own.vercel.app/api/v1/subscription/getCustomerSubscription', {headers:{
+        authorization: accessToken
+      }}
       )
       .then(response => {
         const user = response.data[0]; // Adjust based on the actual response structure
@@ -30,22 +31,25 @@ const FreeTrialBanner = () => {
   }, [accessToken]);
 
   const createfreetrail = async () => {
-    // if (!accessToken) {
-    //   try {
-    //     const createfreetrailurl =
-    //       "https://stream.xircular.io/api/v1/customer/startTrial";
-    //     const response = await axios.get(createfreetrailurl, {
-    //    withCredentials:true
-    //     });
-
-    //     console.log("Free Trial Response", response);
-    //     navigate("/listing")
-    //   } catch (error) {
-    //     console.error("Error fetching data:", error);
-    //   }
-    // } else {
-    //   navigate("/SignUp");
-    // }
+    if (accessToken) {
+      try {
+        const createfreetrailurl =
+          "https://stream.xircular.io/api/v1/customer/startTrial";
+        const response = await axios.get(createfreetrailurl, {headers:{
+          authorization:accessToken
+        }})
+        console.log("Free Trial Response", response);
+        navigate("/listing")
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        if(error.response.data.message==="jwt expired"){
+          alert("Session expired, please login again to continue")
+          navigate("/SignIn")
+        }
+      }
+    } else {
+      navigate("/SignUp");
+    }
   };
 
  if(isTrialActive || isSubscribed){

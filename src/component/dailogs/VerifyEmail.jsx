@@ -59,7 +59,7 @@ export default function VerifyEmail({ onClose, name, phone, password, tokenFromP
   async function handleResendOTP() {
     try {
       const response = await axios.post(
-        "https://stream.xircular.io/api/v1/customer/sendOtp",
+        "https://saas-own.vercel.app/api/v1/customer/sendOtp",
         { email: email }
       );
       console.log(response.data);
@@ -78,7 +78,7 @@ export default function VerifyEmail({ onClose, name, phone, password, tokenFromP
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://stream.xircular.io/api/v1/customer/emailVerification",
+        "https://saas-own.vercel.app/api/v1/customer/emailVerification",
         {
           email: email,
           Otp: otp,

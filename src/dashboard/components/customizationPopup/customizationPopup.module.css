@@ -1,6 +1,6 @@
 .container{
     width: 50vw;
-    min-height: 95vh;
+    /* min-height: 95vh; */
     max-height: fit-content;
     background-color: white;
     /* z-index: 11; */
@@ -23,7 +23,6 @@
     top: 0;
     overflow: hidden;
     backdrop-filter: blur(5px);
-
 }
 .header{
     border-bottom: 1px solid rgba(0, 0, 0, 0.247);

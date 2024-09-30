@@ -7,6 +7,7 @@ import Usecases from './component/Usecases/Usecases'
 import Intro from './component/Introsection/Intro'
 import FreeTrialBanner from './component/Freetrialbanner/FreeTrialBanner'
 import { useLocation } from 'react-router-dom'
+import Footer from './component/footer/Footer'
 
 
 const Home = () => {
@@ -28,6 +29,7 @@ const Home = () => {
  <Pricing />
  </div>
           <FreeTrialBanner />       
+          <Footer />
      </>
   )
 }

@@ -98,7 +98,7 @@ export default function App() {
           }}
         />
       )}
-      <Navbar isrightsidemenu={true} />
+      {!isEditorVisible && <Navbar isrightsidemenu={true} isEditPage={false} />}
       <BuilderComponent
         model="page"
         content={content}
