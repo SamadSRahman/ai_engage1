@@ -1,9 +1,13 @@
 // TermsAndConditions.js
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import './termsAndCondition.css'; // Optional: for custom styles
 
 const TermsAndConditions = () => {
+  
+useEffect(()=>{
+  window.scroll(0,0)
+},[])
   return (
     <div className="terms-container">
       <h1>Terms & Conditions</h1>

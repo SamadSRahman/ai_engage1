@@ -1,9 +1,12 @@
 // RefundPolicy.js
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import './refundPolicy.css'; // Optional: for custom styles
 
 const RefundPolicy = () => {
+  useEffect(()=>{
+    window.scroll(0,0)
+  },[])
   return (
     <div className="refund-policy-container">
       <h1>Refund Policy</h1>

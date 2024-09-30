@@ -4,8 +4,10 @@ import aiengagelogo from '../navbar/aiengagelogo.png';
 import { ReactComponent as Facebookicon } from './Facebookicon.svg'
 import { ReactComponent as Instagramicon } from './Instagramicon.svg'
 import { ReactComponent as LinkedIn } from './LinkedIn.svg'
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate()
   return (
     <div className='footer container'>
 
@@ -19,9 +21,9 @@ const Footer = () => {
        </div>
 
           <div className='footerlinkswrapper'>
-                <p className='footerlinks'> Contact Us </p>
-                <p className='footerlinks'> Terms & Conditions </p>
-                <p className='footerlinks'> Refund Policy </p>
+                <p className='footerlinks' onClick={()=>navigate("/contactUs")}> Contact Us </p>
+                <p className='footerlinks' onClick={()=>navigate("/termsAndConditions")}> Terms & Conditions </p>
+                <p className='footerlinks' onClick={()=>navigate("/refundPolicy")}> Refund Policy </p>
           </div>
 
         <div className='footersocilamediawrapper'>  
